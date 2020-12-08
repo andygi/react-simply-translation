@@ -5,4 +5,5 @@ export default {
   output: [
     { file: "dist/index.min.js", format: "cjs", plugins: [terser()] },
   ],
+  exports: 'named',
 };
