@@ -1,19 +1,68 @@
-import { TestScheduler } from 'jest';
-// import {loadTranslation} from './index.js';
+import loadTranslation from "./index.js";
+let languageGetter;
 
-// test('Translation', () => {
-//     const instance = new loadTranslation();
-//     const spy = jest.spyOn(instance, 'lang');
-//     spy.mockReturnValue(['en-EN', 'it-IT']);
+beforeEach(() => {
+    window.sessionStorage.translate = {};
+    languageGetter = jest.spyOn(window.navigator, 'language', 'get');
+});
 
-//     expect(instance.loadTranslation()).toBe(false);
-//     spy.mockRestore();
-// });
-// https://stackoverflow.com/questions/56706667/how-to-mock-variables-inside-a-function-in-jest
-// https://stackoverflow.com/questions/30792076/mocking-sessionstorage-when-using-jestjs
+afterEach(() => {
+    delete window.sessionStorage.translate;
+});
 
-const sum = require('./sum');
+describe("Traslation", function () {
+    it("should be show default lang", () => {
+        languageGetter.mockReturnValue('en-US');
+        const input = {
+            default: "en-US",
+            languages: {
+                "en-US": {
+                    btnCancel: "cancel",
+                },
+                "it-IT": {
+                    btnCancel: "annulla",
+                },
+            },
+        };
 
-test('adds 1 + 2 to equal 3', () => {
-  expect(sum(1, 2)).toBe(3);
+        const result = { btnCancel: "cancel" };
+        loadTranslation(input);
+        expect(window.sessionStorage.translate).toBe(JSON.stringify(result));
+    });
+    it("should be show browser (IT) lang instead of default", () => {
+        languageGetter.mockReturnValue('it-IT');
+        const input = {
+            default: "en-EN",
+            languages: {
+                "es-ES": {
+                    btnCancel: "borrar",
+                },
+                "it-IT": {
+                    btnCancel: "annulla",
+                },
+            },
+        };
+
+        const result = { btnCancel: "annulla" };
+        loadTranslation(input);
+        expect(window.sessionStorage.translate).toBe(JSON.stringify(result));
+    });
+    it("should be show default lang in case browser lang is not present", () => {
+        languageGetter.mockReturnValue('es-ES');
+        const input = {
+            default: "en-EN",
+            languages: {
+                "en-EN": {
+                    btnCancel: "cancel",
+                },
+                "it-IT": {
+                    btnCancel: "annulla",
+                },
+            },
+        };
+
+        const result = { btnCancel: "cancel" };
+        loadTranslation(input);
+        expect(window.sessionStorage.translate).toBe(JSON.stringify(result));
+    });
 });
