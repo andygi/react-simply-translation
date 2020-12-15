@@ -32,7 +32,7 @@ describe("Traslation", function () {
     it("should be show browser (IT) lang instead of default", () => {
         languageGetter.mockReturnValue('it-IT');
         const input = {
-            default: "en-EN",
+            default: "es-ES",
             languages: {
                 "es-ES": {
                     btnCancel: "borrar",
