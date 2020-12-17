@@ -70,4 +70,9 @@ describe('Traslation', function () {
         window.sessionStorage.translate = JSON.stringify(input);
         expect(simplyTranslate('btnCancel')).toBe('borrar');
     });
+    it('should be the translation with two attributes', () => {
+        const input = { welcome: 'hello {0} {1}' };
+        window.sessionStorage.translate = JSON.stringify(input);
+        expect(simplyTranslate('welcome', ['Mr', 'Brown'])).toBe('hello Mr Brown');
+    });
 });
