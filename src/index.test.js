@@ -1,4 +1,4 @@
-import loadTranslation, { simplyTranslate } from "./index.js";
+import loadTranslation, { simplyTranslate } from './index.js';
 let languageGetter;
 
 beforeEach(() => {
@@ -10,63 +10,63 @@ afterEach(() => {
     delete window.sessionStorage.translate;
 });
 
-describe("Traslation", function () {
-    it("should be show default lang", () => {
+describe('Traslation', function () {
+    it('should be show default lang', () => {
         languageGetter.mockReturnValue('en-US');
         const input = {
-            default: "en-US",
+            default: 'en-US',
             languages: {
-                "en-US": {
-                    btnCancel: "cancel",
+                'en-US': {
+                    btnCancel: 'cancel',
                 },
-                "it-IT": {
-                    btnCancel: "annulla",
+                'it-IT': {
+                    btnCancel: 'annulla',
                 },
             },
         };
 
-        const result = { btnCancel: "cancel" };
+        const result = { btnCancel: 'cancel' };
         loadTranslation(input);
         expect(window.sessionStorage.translate).toBe(JSON.stringify(result));
     });
-    it("should be show browser (IT) lang instead of default", () => {
+    it('should be show browser (IT) lang instead of default', () => {
         languageGetter.mockReturnValue('it-IT');
         const input = {
-            default: "es-ES",
+            default: 'es-ES',
             languages: {
-                "es-ES": {
-                    btnCancel: "borrar",
+                'es-ES': {
+                    btnCancel: 'borrar',
                 },
-                "it-IT": {
-                    btnCancel: "annulla",
+                'it-IT': {
+                    btnCancel: 'annulla',
                 },
             },
         };
 
-        const result = { btnCancel: "annulla" };
+        const result = { btnCancel: 'annulla' };
         loadTranslation(input);
         expect(window.sessionStorage.translate).toBe(JSON.stringify(result));
     });
-    it("should be show default lang in case browser lang is not present", () => {
+    it('should be show default lang in case browser lang is not present', () => {
         languageGetter.mockReturnValue('es-ES');
         const input = {
-            default: "en-EN",
+            default: 'en-EN',
             languages: {
-                "en-EN": {
-                    btnCancel: "cancel",
+                'en-EN': {
+                    btnCancel: 'cancel',
                 },
-                "it-IT": {
-                    btnCancel: "annulla",
+                'it-IT': {
+                    btnCancel: 'annulla',
                 },
             },
         };
 
-        const result = { btnCancel: "cancel" };
+        const result = { btnCancel: 'cancel' };
         loadTranslation(input);
         expect(window.sessionStorage.translate).toBe(JSON.stringify(result));
     });
-    it("should be the translation", () => {
-        const input = { btnCancel: "borrar" };
+    it('should be the translation', () => {
+        const input = { btnCancel: 'borrar' };
         window.sessionStorage.translate = JSON.stringify(input);
         expect(simplyTranslate('btnCancel')).toBe('borrar');
     });
