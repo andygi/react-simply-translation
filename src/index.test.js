@@ -1,4 +1,4 @@
-import loadTranslation from "./index.js";
+import loadTranslation, { simplyTranslate } from "./index.js";
 let languageGetter;
 
 beforeEach(() => {
@@ -64,5 +64,10 @@ describe("Traslation", function () {
         const result = { btnCancel: "cancel" };
         loadTranslation(input);
         expect(window.sessionStorage.translate).toBe(JSON.stringify(result));
+    });
+    it("should be the translation", () => {
+        const input = { btnCancel: "borrar" };
+        window.sessionStorage.translate = JSON.stringify(input);
+        expect(simplyTranslate('btnCancel')).toBe('borrar');
     });
 });
